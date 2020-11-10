@@ -1,0 +1,33 @@
+Criar tabela
+php artisan make:migration create_demanda_table
+
+
+
+
+
+    SELECT 
+        `t1`.`protocolo` AS `protocolo`,
+        `t1`.`analise` AS `analise`,
+        `t1`.`n_carta` AS `n_carta`,
+        `t1`.`n_ordem` AS `n_ordem`,
+        `t1`.`uc` AS `uc`,
+        `t2`.`tipo_projeto` AS `tipo_projeto`,
+        (TO_DAYS(NOW()) - TO_DAYS(`t1`.`data_entrada`)) AS `prazo`,
+        `t1`.`nome_cliente` AS `nome_cliente`,
+        `t1`.`data_entrada` AS `data_entrada`,
+        `t1`.`parecer` AS `parecer`,
+        `t3`.`nome_analista` AS `nome_analista`,
+        `t1`.`envio_carta` AS `envio_carta`,
+        `t1`.`data_parecer` AS `data_parecer`,
+        `t1`.`status_prazo` AS `status_prazo`,
+        `t1`.`email` AS `email`
+    FROM
+        ((`tb_demanda` `t1`
+        LEFT JOIN `tb_projetos` `t2` ON ((`t1`.`id_projeto` = `t2`.`id`)))
+        LEFT JOIN `tb_analista` `t3` ON ((`t1`.`id_analista` = `t3`.`id`)))
+
+
+
+
+
+        row_number() over(partition by protocolo order by protocolo) as ranking
